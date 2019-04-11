@@ -18,8 +18,43 @@ public class OrderedList_inArraySlots
               \findMe is absent from this list.
      */
     public int indexOf( Integer findMe) {
-        return -32768; /* changing this value in 
-		  solutions will check the processing */
+        return recursive_indexOf(findMe);
+    }
+	
+    private int whileStyle_indexOf(Integer findMe) {	
+	int highLimit = size() - 1;
+	int lowLimit = 0;
+	int pageToCheck, compareResult;
+	while (lowLimit <= highLimit) {
+	    pageToCheck = (highLimit + lowLimit) / 2;
+	    compareResult = get(pageToCheck).compareTo(findMe);
+            if (compareResult == 0)
+	        return pageToCheck;
+	    else if (compareResult > 0)
+		highLimit = pageToCheck - 1;
+	    else
+		lowLimit = pageToCheck + 1;
+	}
+	return -1; // element not found
+    }
+
+    private int recursive_indexOf(Integer findMe) {
+        return recursive_indexOf(findMe, 0, size() - 1);
+    }
+
+    private int recursive_indexOf(Integer findMe, int low, int high) {
+	if (low > high)
+	    return -1;
+	else {
+	    int pageToCheck = (low + high) / 2;
+	    int compareResult = get(pageToCheck).compareTo(findMe);
+	    if (compareResult == 0)
+		return pageToCheck;
+	    else if (compareResult > 0)
+		return recursive_indexOf(findMe, low, pageToCheck - 1);
+	    else
+		return recursive_indexOf(findMe, pageToCheck + 1, high);
+	}
     }
     
 
